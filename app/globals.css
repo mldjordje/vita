@@ -1,0 +1,190 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------
+   Vita Clinic — design tokens
+   Boje izvučene iz fotografija enterijera: beli mermer, blush velur,
+   zlatni detalji, antracit metal, orhideja.
+---------------------------------------------------------------- */
+/* Boje su preuzete sa njihovih Instagram grafika i logotipa — vinska crvena,
+   blush roze i zlatni lotos. Nije izmišljena paleta. */
+@theme {
+  --color-marble: #f8f6f4;
+  --color-marble-deep: #efeae6;
+  --color-blush: #f7dce6;
+  --color-blush-soft: #fcf0f4;
+  --color-mauve: #c9a3b4;
+  --color-wine: #7b1e3f;
+  --color-wine-deep: #5a1130;
+  --color-rose: #a34a6e;
+  --color-gold: #c9a96a;
+  --color-gold-soft: #e3d2ae;
+  --color-ink: #232227;
+  --color-ink-soft: #3a383f;
+  --color-muted: #6b6670;
+
+  --font-display: var(--font-display-family), ui-serif, Georgia, serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+
+  /* jedan "otkucaj" = osnovna jedinica tempa za sve animacije */
+  --beat: 640ms;
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-soft: cubic-bezier(0.65, 0, 0.35, 1);
+
+  --shell-max: 1440px;
+  --shell-pad: clamp(1.25rem, 4vw, 3.5rem);
+}
+
+/* --------------------------------- base --------------------------------- */
+:root {
+  color-scheme: light;
+  --header-h: 76px;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  /* Lenis vozi scroll; native smooth bi se tukao sa njim */
+  scroll-behavior: auto;
+}
+
+body {
+  background: var(--color-marble);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-synthesis-weight: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+
+::selection {
+  background: var(--color-blush);
+  color: var(--color-ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-wine);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* Lenis drži scroll na <html>; ove klase Lenis sam dodaje. */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* ------------------------------ tipografija ------------------------------
+   MORA u @layer components. Nelejerovana pravila u Tailwind v4 imaju veći
+   prioritet od utility klasa, pa je `.u-lead { color: ink-soft }` gazio
+   `text-marble/80` i tekst je nestajao na tamnim sekcijama.
+-------------------------------------------------------------------------- */
+@layer components {
+  .u-display {
+    font-family: var(--font-display);
+    font-weight: 400;
+    line-height: 0.92;
+    letter-spacing: -0.03em;
+  }
+
+  .u-h1 {
+    font-size: clamp(3rem, 8.4vw, 9.5rem);
+  }
+  .u-h2 {
+    font-size: clamp(2.1rem, 4.8vw, 4.25rem);
+  }
+  .u-h3 {
+    font-size: clamp(1.45rem, 2.3vw, 2.15rem);
+    line-height: 1.08;
+  }
+
+  .u-eyebrow {
+    font-size: 0.6875rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 500;
+    color: var(--color-muted);
+  }
+
+  .u-lead {
+    font-size: clamp(1.0625rem, 1.4vw, 1.3125rem);
+    line-height: 1.62;
+    color: var(--color-ink-soft);
+  }
+
+  .u-shell {
+    width: 100%;
+    max-width: var(--shell-max);
+    margin-inline: auto;
+    padding-inline: var(--shell-pad);
+  }
+}
+
+/* --------------------------- reveal primitivi ---------------------------
+   Startno stanje pišemo u CSS-u da ne bi bilo bljeska pre nego GSAP preuzme.
+   `data-anim` elemente hvata useReveal hook.
+------------------------------------------------------------------------- */
+[data-anim="fade-up"],
+[data-anim="fade"] {
+  opacity: 0;
+}
+[data-anim="fade-up"] {
+  transform: translate3d(0, 2rem, 0);
+}
+[data-anim="line"] > span {
+  display: block;
+  will-change: transform;
+}
+
+.u-mask {
+  overflow: hidden;
+  display: block;
+}
+
+/* --------------------------- galerija: lightbox --------------------------
+   Flip meri poziciju pre i posle, pa <figure> mora fizički da se preseli u
+   overlay. Ove dimenzije su odredište te selidbe.
+------------------------------------------------------------------------- */
+.is-lightbox {
+  width: min(92vw, 1100px);
+  height: min(86vh, 900px);
+  cursor: zoom-out;
+  border-radius: 2px;
+}
+.is-lightbox img {
+  transform: none !important;
+  scale: 1 !important;
+  object-fit: contain;
+  background: var(--color-ink);
+}
+
+/* ---------------------------- zrno preko svega --------------------------- */
+.u-grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ------------------------------ pristupačnost ---------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  [data-anim] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
