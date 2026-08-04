@@ -65,7 +65,7 @@ export function Header() {
         style={{ backgroundColor: "rgba(248,246,244,0)" }}
       >
         <div className="u-shell flex h-[76px] items-center justify-between gap-8">
-          <a href="#hero" className="group flex items-baseline gap-2">
+          <a href="/" className="group flex items-baseline gap-2">
             <span className="u-display text-xl tracking-tight">{clinic.name}</span>
             <span className="u-eyebrow hidden text-current/50 sm:inline">{clinic.city}</span>
           </a>
@@ -82,13 +82,21 @@ export function Header() {
             ))}
           </nav>
 
-          <MagneticButton
-            variant="ghost"
-            href={clinic.phoneHref}
-            className="hidden !px-5 !py-2.5 text-sm min-[600px]:inline-flex"
-          >
-            {clinic.phone}
-          </MagneticButton>
+          <div className="flex items-center gap-3">
+            <a
+              href="/client"
+              className="hidden text-sm text-current/70 transition-colors hover:text-current min-[700px]:inline"
+            >
+              Moj nalog
+            </a>
+            <MagneticButton
+              variant="ghost"
+              href="/booking"
+              className="!px-5 !py-2.5 text-sm"
+            >
+              Zakažite
+            </MagneticButton>
+          </div>
         </div>
       </div>
     </header>

@@ -68,9 +68,8 @@ export function Contact() {
             </h2>
           </div>
           <div data-block className="flex flex-wrap gap-3">
-            <MagneticButton variant="solid" href={clinic.phoneHref}>
-              <Phone size={16} strokeWidth={1.8} />
-              {clinic.phone}
+            <MagneticButton variant="solid" href="/booking">
+              Zakažite online
             </MagneticButton>
             <MagneticButton
               variant="ghost"

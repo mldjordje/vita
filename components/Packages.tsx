@@ -5,7 +5,6 @@ import { gsap, ScrollTrigger } from "@/lib/gsap";
 import { DUR, EASE, STAGGER, prefersReduced } from "@/lib/anim";
 import { packages } from "@/lib/content";
 import { MagneticButton } from "@/components/ui/MagneticButton";
-import { Toast, useToast } from "@/components/ui/Toast";
 
 const formatPrice = (n: number) => new Intl.NumberFormat("sr-RS").format(Math.round(n));
 
@@ -31,7 +30,6 @@ function LotusDivider({ className = "" }: { className?: string }) {
 
 export function Packages() {
   const sectionRef = useRef<HTMLElement | null>(null);
-  const { message, show } = useToast();
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -168,7 +166,7 @@ export function Packages() {
 
                 <MagneticButton
                   variant={featured ? "solid" : "ghost"}
-                  onClick={() => show("Demo prikaz — zakazivanje nije aktivno.")}
+                  href="/booking"
                   className={[
                     "mt-7 w-full justify-center",
                     featured
@@ -188,7 +186,6 @@ export function Packages() {
         </p>
       </div>
 
-      <Toast message={message} />
     </section>
   );
 }

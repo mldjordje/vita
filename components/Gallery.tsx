@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { X } from "lucide-react";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
 import { Flip } from "gsap/Flip";
 import { DUR, EASE, isDesktop, prefersReduced } from "@/lib/anim";
@@ -28,12 +29,24 @@ export function Gallery() {
   const homeRef = useRef<HTMLElement | null>(null);
   const openedRef = useRef<HTMLElement | null>(null);
   const triggerRef = useRef<HTMLElement | null>(null);
+  const closeButtonRef = useRef<HTMLButtonElement | null>(null);
   const [open, setOpen] = useState(false);
 
   const close = useCallback(() => {
     const figure = openedRef.current;
     const home = homeRef.current;
     if (!figure || !home) return;
+
+    if (prefersReduced()) {
+      home.appendChild(figure);
+      figure.classList.remove("is-lightbox");
+      gsap.set(backdropRef.current, { opacity: 0 });
+      openedRef.current = null;
+      homeRef.current = null;
+      setOpen(false);
+      triggerRef.current?.focus();
+      return;
+    }
 
     const state = Flip.getState(figure);
     home.appendChild(figure);
@@ -57,11 +70,19 @@ export function Gallery() {
   const openAt = useCallback(
     (figure: HTMLElement, trigger: HTMLElement) => {
       if (openedRef.current || !overlayRef.current) return;
-      if (prefersReduced()) return;
 
       triggerRef.current = trigger;
       homeRef.current = figure.parentElement;
       openedRef.current = figure;
+
+      if (prefersReduced()) {
+        overlayRef.current.appendChild(figure);
+        figure.classList.add("is-lightbox");
+        setOpen(true);
+        gsap.set(backdropRef.current, { opacity: 1 });
+        requestAnimationFrame(() => closeButtonRef.current?.focus());
+        return;
+      }
 
       const state = Flip.getState(figure);
       overlayRef.current.appendChild(figure);
@@ -70,6 +91,7 @@ export function Gallery() {
       setOpen(true);
       gsap.to(backdropRef.current, { opacity: 1, duration: DUR.half });
       Flip.from(state, { duration: DUR.one, ease: EASE.outExpo, absolute: true });
+      requestAnimationFrame(() => closeButtonRef.current?.focus());
     },
     []
   );
@@ -78,6 +100,10 @@ export function Gallery() {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") close();
+      if (e.key === "Tab") {
+        e.preventDefault();
+        closeButtonRef.current?.focus();
+      }
     };
     window.addEventListener("keydown", onKey);
     document.documentElement.classList.add("lenis-stopped");
@@ -193,11 +219,24 @@ export function Gallery() {
         role={open ? "dialog" : undefined}
         aria-modal={open ? true : undefined}
         aria-label="Uvećana fotografija"
+        tabIndex={open ? -1 : undefined}
         className={`fixed inset-0 z-[71] flex items-center justify-center p-6 ${
           open ? "" : "pointer-events-none"
         }`}
         onClick={close}
-      />
+      >
+        <button
+          ref={closeButtonRef}
+          type="button"
+          onClick={close}
+          aria-label="Zatvori uvećanu fotografiju"
+          className={`absolute right-5 top-5 z-10 grid size-12 place-items-center rounded-full border border-marble/20 bg-ink/70 text-marble backdrop-blur-md transition-colors hover:bg-wine focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold ${
+            open ? "" : "hidden"
+          }`}
+        >
+          <X aria-hidden="true" size={20} strokeWidth={1.7} />
+        </button>
+      </div>
     </section>
   );
 }

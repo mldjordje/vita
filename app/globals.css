@@ -61,6 +61,14 @@ body {
   color: var(--color-ink);
 }
 
+.u-scrollbar-none {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.u-scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
 :focus-visible {
   outline: 2px solid var(--color-wine);
   outline-offset: 3px;

@@ -97,13 +97,18 @@ export function Services() {
 
       list.addEventListener("pointermove", onMove);
       list.addEventListener("pointerleave", clearRows);
-      rows.forEach((row, i) => {
-        row.addEventListener("pointerenter", () => focusRow(i));
+      const enterHandlers = rows.map((row, i) => {
+        const handler = () => focusRow(i);
+        row.addEventListener("pointerenter", handler);
+        return handler;
       });
 
       return () => {
         list.removeEventListener("pointermove", onMove);
         list.removeEventListener("pointerleave", clearRows);
+        rows.forEach((row, i) => {
+          row.removeEventListener("pointerenter", enterHandlers[i]);
+        });
       };
     }, section);
 

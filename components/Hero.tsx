@@ -203,7 +203,7 @@ export function Hero() {
         </p>
 
         <div ref={actionsRef} className="mt-10 flex flex-wrap gap-4">
-          <MagneticButton variant="solid" href="#zakazivanje">
+          <MagneticButton variant="solid" href="/booking">
             {hero.cta}
           </MagneticButton>
           <MagneticButton variant="ghost" href="#usluge" className="text-marble">
