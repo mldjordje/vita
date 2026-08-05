@@ -1,17 +1,16 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useRef } from "react";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
 import { DUR, EASE, STAGGER, prefersReduced } from "@/lib/anim";
 import { services } from "@/lib/content";
-import { Toast, useToast } from "@/components/ui/Toast";
 
 export function Services() {
   const sectionRef = useRef<HTMLElement | null>(null);
   const listRef = useRef<HTMLUListElement | null>(null);
   const boxRef = useRef<HTMLDivElement | null>(null);
   const imgsRef = useRef<(HTMLImageElement | null)[]>([]);
-  const { message, show } = useToast();
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -131,9 +130,8 @@ export function Services() {
         <ul ref={listRef} className="mt-16 border-t border-ink/10">
           {services.map((service, i) => (
             <li key={service.id} data-row className="border-b border-ink/10">
-              <button
-                type="button"
-                onClick={() => show("Demo prikaz — zakazivanje nije aktivno.")}
+              <Link
+                href="/booking"
                 className="group flex w-full items-center gap-5 py-7 text-left min-[900px]:gap-8 min-[900px]:py-9"
               >
                 <span className="u-eyebrow w-8 shrink-0 tabular-nums text-muted">
@@ -163,7 +161,7 @@ export function Services() {
                 <span className="hidden shrink-0 text-sm text-muted min-[900px]:block">
                   {service.duration}
                 </span>
-              </button>
+              </Link>
             </li>
           ))}
         </ul>
@@ -188,7 +186,6 @@ export function Services() {
         ))}
       </div>
 
-      <Toast message={message} />
     </section>
   );
 }

@@ -19,10 +19,30 @@ const inter = Inter({
   display: "swap",
 });
 
+const title = `${clinic.name} ${clinic.city} — ginekologija, trudnoća i ultrazvuk`;
+const description =
+  "Savremena ginekološka ordinacija u Nišu. Vođenje trudnoće, 4D ultrazvuk, estetska i regenerativna ginekologija.";
+
+// Bez metadataBase Next ne može da napravi apsolutnu putanju do OG slike,
+// pa pregled linka u WhatsApp-u i Viber-u ostaje prazan.
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL
+  ? new URL(process.env.NEXT_PUBLIC_SITE_URL)
+  : process.env.VERCEL_PROJECT_PRODUCTION_URL
+    ? new URL(`https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`)
+    : new URL("http://localhost:3000");
+
 export const metadata: Metadata = {
-  title: `${clinic.name} ${clinic.city} — ginekologija, trudnoća i ultrazvuk`,
-  description:
-    "Savremena ginekološka ordinacija u Nišu. Vođenje trudnoće, 4D ultrazvuk, estetska i regenerativna ginekologija.",
+  metadataBase: siteUrl,
+  title,
+  description,
+  openGraph: {
+    title,
+    description,
+    siteName: `${clinic.name} ${clinic.city}`,
+    locale: "sr_RS",
+    type: "website",
+  },
+  twitter: { card: "summary_large_image", title, description },
   robots: { index: false, follow: false },
 };
 

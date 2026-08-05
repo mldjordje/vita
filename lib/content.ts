@@ -207,4 +207,4 @@ export const testimonials = [
 
 /** Demo sadržaj — jasno označen, nisu prave osobe. */
 export const DEMO_NOTICE =
-  "Demo prikaz. Fotografije su iz ordinacije; tekstovi, lekari i recenzije su primer.";
+  "Demo prikaz. Fotografije i podaci o lekarima su iz ordinacije; recenzije i podaci u portalima su primer.";

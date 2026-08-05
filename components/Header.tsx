@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { Phone } from "lucide-react";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
 import { DUR, EASE, onPreloaderDone, prefersReduced } from "@/lib/anim";
 import { clinic, nav } from "@/lib/content";
@@ -83,6 +84,15 @@ export function Header() {
           </nav>
 
           <div className="flex items-center gap-3">
+            {/* Ordinaciju i dalje najviše zovu telefonom — broj mora da bude na dohvat palca. */}
+            <a
+              href={clinic.phoneHref}
+              aria-label={`Pozovite ${clinic.phone}`}
+              className="flex items-center gap-2 rounded-full border border-current/25 px-3 py-2.5 text-sm text-current/80 transition-colors hover:text-current min-[700px]:px-4"
+            >
+              <Phone size={15} strokeWidth={1.8} />
+              <span className="hidden min-[700px]:inline tabular-nums">{clinic.phone}</span>
+            </a>
             <a
               href="/client"
               className="hidden text-sm text-current/70 transition-colors hover:text-current min-[700px]:inline"
