@@ -90,6 +90,15 @@ export default function ComingSoon() {
         <span>{clinic.address}</span>
         <span className={styles.dot} aria-hidden />
         <span>Ginekologija · Akušerstvo · Ultrazvuk</span>
+        <span className={styles.dot} aria-hidden />
+        <a
+          className={styles.credit}
+          href="https://adspire.rs"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Sajt radi Adspire
+        </a>
       </footer>
     </main>
   );
