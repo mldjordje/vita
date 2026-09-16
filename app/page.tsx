@@ -6,6 +6,7 @@ export const metadata: Metadata = {
   title: `${clinic.name} ${clinic.city} — uskoro`,
   description: "Novi sajt Vita Clinic Niš stiže uskoro. Ginekologija, akušerstvo i ultrazvučna dijagnostika.",
   robots: { index: true, follow: true },
+  alternates: { canonical: "/" },
 };
 
 const word = "Uskoro";
