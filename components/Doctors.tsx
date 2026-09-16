@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
 import { DUR, EASE, STAGGER, isDesktop, prefersReduced } from "@/lib/anim";
 import { doctors } from "@/lib/content";
@@ -77,18 +79,27 @@ export function Doctors() {
               možete da zakažete
             </h2>
           </div>
-          <p className="u-lead max-w-sm text-marble/80">
-            Specijalisti ginekologije i akušerstva. Termin birate kod lekara kod kog želite.
-          </p>
+          <div className="max-w-sm">
+            <p className="u-lead text-marble/80">
+              Specijalisti ginekologije i akušerstva. Termin birate kod lekara kod kog želite.
+            </p>
+            <Link
+              href="/preview/tim"
+              className="mt-6 inline-flex items-center gap-2 text-sm text-gold-soft transition-colors hover:text-marble"
+            >
+              Upoznajte ceo tim <ArrowUpRight size={16} />
+            </Link>
+          </div>
         </div>
 
         <div className="mt-16 grid gap-10 min-[900px]:grid-cols-3 min-[900px]:gap-8">
           {doctors.map((doc, i) => (
-            <article
+            <Link
               key={doc.id}
+              href={doc.bio ? `/preview/tim/${doc.slug}` : "/preview/tim"}
               data-doc
               // Srednja kolona je spuštena — ravan red od tri deluje kao katalog.
-              className={`group ${i === 1 ? "min-[900px]:mt-16" : ""}`}
+              className={`group block ${i === 1 ? "min-[900px]:mt-16" : ""}`}
             >
               <div className="relative aspect-[3/4] overflow-hidden rounded-sm bg-wine/40">
                 <div data-doc-media className="absolute inset-0 will-change-transform">
@@ -110,7 +121,7 @@ export function Doctors() {
                 <span className="mt-4 block h-px w-10 origin-left bg-gold transition-transform duration-500 ease-out group-hover:scale-x-[4]" />
                 <p className="mt-4 text-sm leading-relaxed text-marble/80">{doc.role}</p>
               </div>
-            </article>
+            </Link>
           ))}
         </div>
       </div>

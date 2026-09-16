@@ -26,7 +26,7 @@ export const clinic = {
 
 export const nav = [
   { label: "Trudnoća", href: "#trudnoca" },
-  { label: "Tim", href: "#tim" },
+  { label: "Tim", href: "/preview/tim" },
   { label: "Paketi", href: "#paketi" },
   { label: "Usluge", href: "#usluge" },
   { label: "Ordinacija", href: "#ordinacija" },
@@ -105,29 +105,167 @@ export const services = [
  * Lekari sa njihovih zvaničnih Instagram objava — imena, titule i portreti su njihovi.
  * Ništa ovde nije izmišljeno.
  */
-export const doctors = [
+export type DoctorBio = {
+  lead: string;
+  facts: { label: string; value: string }[];
+  /** Hronologija — ide u vertikalnu liniju na stranici lekara. */
+  timeline: { year: string; text: string }[];
+  /** Edukacije grupisane po oblasti. */
+  education: { area: string; items: string[] }[];
+  closing?: string;
+};
+
+export type Doctor = {
+  id: string;
+  slug: string;
+  name: string;
+  prefix: string;
+  role: string;
+  titles: string[];
+  image: string;
+  bio?: DoctorBio;
+};
+
+export const doctors: Doctor[] = [
   {
     id: "ivana",
+    slug: "dr-ivana-cvetanovic-simeonidis",
     name: "Ivana Cvetanović Simeonidis",
     prefix: "dr spec. med.",
     role: "specijalista ginekologije i akušerstva",
+    titles: ["Specijalista ginekologije i akušerstva"],
     image: "/media/dr-ivana-portret.webp",
   },
   {
     id: "vesna",
+    slug: "dr-vesna-krstic",
     name: "Vesna Krstić",
     prefix: "dr spec. med.",
     role: "specijalista ginekologije i akušerstva",
+    titles: ["Specijalista ginekologije i akušerstva"],
     image: "/media/dr-vesna-portret.webp",
+    bio: {
+      lead: "Više od petnaest godina rada sa pacijentima — od hitne pomoći i kućnog lečenja do specijalističke ginekologije. Od aprila 2026. dostupna je pacijentkinjama Vita Clinic.",
+      facts: [
+        { label: "Diploma", value: "Medicinski fakultet u Nišu, 2006." },
+        { label: "Specijalizacija", value: "Ginekologija i akušerstvo, 2023." },
+        { label: "Trenutno", value: "Služba za zdravstvenu zaštitu žena, Dom zdravlja Niš" },
+      ],
+      timeline: [
+        { year: "1980", text: "Rođena u Novom Sadu." },
+        {
+          year: "2006",
+          text: "Diplomirala na Medicinskom fakultetu Univerziteta u Nišu sa prosečnom ocenom 8,16.",
+        },
+        {
+          year: "2006 –",
+          text: "Radno iskustvo u Domu zdravlja Bela Palanka, zatim u Domu zdravlja Niš — hitna medicinska pomoć, služba opšte medicine i služba kućnog lečenja.",
+        },
+        {
+          year: "2017",
+          text: "Posle dugogodišnjeg rada započinje specijalističke studije ginekologije i akušerstva.",
+        },
+        {
+          year: "2023",
+          text: "Stiče zvanje specijaliste ginekologije i akušerstva. Zaposlena u službi za zdravstvenu zaštitu žena Doma zdravlja Niš.",
+        },
+        { year: "2026", text: "Od aprila prima pacijentkinje u Vita Clinic." },
+      ],
+      education: [
+        {
+          area: "Akreditovane škole i kursevi",
+          items: [
+            "Kolposkopija",
+            "Citodijagnostika",
+            "Ultrazvučna dijagnostika u perinatologiji",
+            "Metode estetske i regenerativne ginekologije",
+          ],
+        },
+      ],
+    },
   },
   {
     id: "tanja",
+    slug: "dr-tanja-mladenovic",
     name: "Tanja Mladenović",
     prefix: "dr spec. med.",
     role: "specijalista ginekologije i akušerstva · lekar estetske medicine",
+    titles: [
+      "Specijalista ginekologije i akušerstva",
+      "Lekar estetske medicine",
+      "Koosnivač Udruženja za estetsku i regenerativnu ginekologiju (U.E.R.G.)",
+    ],
     image: "/media/dr-tanja-portret.webp",
+    bio: {
+      lead: "Ginekolog i lekar estetske medicine sa skoro dve decenije edukacija u Francuskoj, Švajcarskoj, Italiji i Srbiji. Organizator, edukator i predavač na edukacijama iz estetske i regenerativne medicine i ginekologije.",
+      facts: [
+        { label: "Diploma", value: "Medicinski fakultet u Nišu, 2004." },
+        {
+          label: "Trenutno",
+          value: "Specijalista ginekologije i akušerstva, primarna zdravstvena zaštita žena, Dom zdravlja Niš",
+        },
+        { label: "Udruženje", value: "Koosnivač U.E.R.G." },
+      ],
+      timeline: [
+        { year: "2004", text: "Diplomirala na Medicinskom fakultetu Univerziteta u Nišu." },
+        {
+          year: "2005 – 2015",
+          text: "Medicinski farmaceutski marketing u kompaniji Hemofarm.",
+        },
+        {
+          year: "2007",
+          text: "Uporedo sa radom u marketingu počinje karijeru u estetskoj medicini — evropski kongres estetske medicine EMAA u Parizu.",
+        },
+        {
+          year: "2009/10",
+          text: "Završava jedinu zvaničnu školu komplementarne medicine — KME Medicinskog fakulteta u Beogradu, osnove akupunkture I, II i III nivo (prof. dr Ljubica Konstantinović).",
+        },
+        {
+          year: "2021",
+          text: "ECAMS — European College of Aesthetic Medicine and Surgery, Cremona, Italija.",
+        },
+        {
+          year: "2022",
+          text: "Švajcarska: N-Rose protocol training za hijaluronske filere i radiotalasnu terapiju (dr Piotr Kolcewski, dr Sophie Menkes).",
+        },
+        {
+          year: "2023",
+          text: "Aptos niti i Regen Lab PRP procedure u regenerativnoj ginekologiji (dr Ksenija Selih Martinec).",
+        },
+      ],
+      education: [
+        {
+          area: "Estetska medicina",
+          items: [
+            "Hijaluronski fileri — Inject Now Academy, Francuska",
+            "Superficijalni i srednji pilinzi i mezoterapijski kokteli — Martinex, Beograd (dr Olga Selyaninova)",
+            "Mezoterapija u sportskoj i estetskoj medicini — dr Jacques Le Coz, prvi saradnik dr M. Pistora, začetnika mezoterapije",
+            "Botulinum toksin — Pharma Swiss (Dysport), KME Beograd (dr Najib Chichacly) i Allergan Medical Institute",
+          ],
+        },
+        {
+          area: "Ginekologija i dijagnostika",
+          items: [
+            "Kolposkopija i citologija",
+            "Akreditovane edukacije iz ultrazvučne dijagnostike u ginekologiji i perinatologiji — GAK KCS, u organizaciji Udruženja za fetalnu i neonatalnu medicinu, Beograd",
+          ],
+        },
+        {
+          area: "Estetska i regenerativna ginekologija",
+          items: [
+            "Aptos niti i Regen Lab PRP procedure",
+            "Radiotalasna terapija — N-Rose protocol",
+            "Aktivni učesnik brojnih internacionalnih i domaćih kongresa i edukacija",
+          ],
+        },
+      ],
+    },
   },
-] as const;
+];
+
+export function getDoctor(slug: string): Doctor | undefined {
+  return doctors.find((d) => d.slug === slug);
+}
 
 /** Paketi i cene su tačno onako kako ih klinika objavljuje. */
 export const packages = [

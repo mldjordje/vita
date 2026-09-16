@@ -3,11 +3,16 @@
 import { useEffect, useRef } from "react";
 import { Phone } from "lucide-react";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
-import { DUR, EASE, onPreloaderDone, prefersReduced } from "@/lib/anim";
+import { DUR, EASE, markPreloaderDone, onPreloaderDone, prefersReduced } from "@/lib/anim";
 import { clinic, nav } from "@/lib/content";
 import { MagneticButton } from "@/components/ui/MagneticButton";
 
-export function Header() {
+type HeaderProps = {
+  /** Podstranice nemaju preloader niti sekcije — sidra vode nazad na landing. */
+  standalone?: boolean;
+};
+
+export function Header({ standalone = false }: HeaderProps) {
   const rootRef = useRef<HTMLElement | null>(null);
   const barRef = useRef<HTMLDivElement | null>(null);
 
@@ -15,6 +20,9 @@ export function Header() {
     const root = rootRef.current;
     const bar = barRef.current;
     if (!root || !bar) return;
+
+    // Bez preloadera na stranici header bi čekao event koji nikad ne stigne.
+    if (standalone) markPreloaderDone();
 
     if (prefersReduced()) {
       gsap.set(root, { yPercent: 0, opacity: 1 });
@@ -30,7 +38,7 @@ export function Header() {
           opacity: 1,
           duration: DUR.onehalf,
           ease: EASE.outExpo,
-          delay: DUR.half,
+          delay: standalone ? 0 : DUR.half,
         });
       });
 
@@ -56,7 +64,9 @@ export function Header() {
     }, root);
 
     return () => ctx.revert();
-  }, []);
+  }, [standalone]);
+
+  const resolve = (href: string) => (standalone && href.startsWith("#") ? `/preview${href}` : href);
 
   return (
     <header ref={rootRef} className="fixed inset-x-0 top-0 z-50">
@@ -66,7 +76,7 @@ export function Header() {
         style={{ backgroundColor: "rgba(248,246,244,0)" }}
       >
         <div className="u-shell flex h-[76px] items-center justify-between gap-8">
-          <a href="/" className="group flex items-baseline gap-2">
+          <a href="/preview" className="group flex items-baseline gap-2">
             <span className="u-display text-xl tracking-tight">{clinic.name}</span>
             <span className="u-eyebrow hidden text-current/50 sm:inline">{clinic.city}</span>
           </a>
@@ -75,7 +85,7 @@ export function Header() {
             {nav.map((item) => (
               <a
                 key={item.href}
-                href={item.href}
+                href={resolve(item.href)}
                 className="text-sm text-current/75 transition-colors hover:text-current"
               >
                 {item.label}
