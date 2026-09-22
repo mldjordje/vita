@@ -94,7 +94,7 @@ export default function ComingSoon() {
         <span className={styles.dot} aria-hidden />
         <a
           className={styles.credit}
-          href="https://adspire.rs"
+          href="https://adspire.rs/online-zakazivanje/stomatoloske-i-medicinske-ordinacije"
           target="_blank"
           rel="noopener noreferrer"
         >
